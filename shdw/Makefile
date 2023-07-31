@@ -6,7 +6,11 @@ shdw_FILES = main.m
 shdw_CFLAGS = -fobjc-arc -I../Shadow.framework/Headers -I../vendor/RootBridge.framework/Headers
 shdw_LDFLAGS = -rpath /Library/Frameworks -rpath /var/jb/Library/Frameworks -rpath /usr/lib -rpath /var/jb/usr/lib
 shdw_LDFLAGS += -F../ -F../vendor/
-shdw_CODESIGN_FLAGS = -Sentitlements.plist
+ifeq ($(TARGET_CODESIGN),ldid)
+shdw_CODESIGN_FLAGS += -Sentitlements.plist
+else
+shdw_CODESIGN_FLAGS += --entitlements entitlements.plist $(TARGET_CODESIGN_FLAGS)
+endif
 shdw_INSTALL_PATH = /usr/local/bin
 shdw_EXTRA_FRAMEWORKS = Shadow RootBridge
 shdw_FRAMEWORKS = Foundation
