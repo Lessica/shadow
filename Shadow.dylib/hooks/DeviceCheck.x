@@ -4,7 +4,7 @@
 // %hook DCDevice
 // - (BOOL)isSupported {
 //     // maybe returning unsupported can skip some app attest token generations
-// 	return NO;
+// 	   return NO;
 // }
 // %end
 
@@ -24,10 +24,10 @@
 
 // %hook SFAntiPiracy
 // + (int)isJailbroken {
-// 	// Probably should not hook with a hard coded value.
-// 	// This value may be changed by developers using this library.
-// 	// Best to defeat the checks rather than skip them.
-// 	return 4783242;
+// 	   // Probably should not hook with a hard coded value.
+// 	   // This value may be changed by developers using this library.
+// 	   // Best to defeat the checks rather than skip them.
+// 	   return 4783242;
 // }
 // %end
 
@@ -147,6 +147,67 @@
 }
 %end
 
+%hook CLSAnalyticsMetadataController
++ (BOOL)hostJailbroken { return NO; }
+%end
+
+%hook Utility
+- (BOOL)isJailBreak { return NO; }
+%end
+
+%hook DeviceInfoManager
+- (BOOL)isJailBreak { return NO; }
+%end
+
+%hook STLivenessDetector
+- (BOOL)isJailbroken { return NO; }
+%end
+
+%hook BLYDevice
++ (BOOL)isJailBreak { return NO; }
+- (BOOL)isJailbroken { return NO; }
+- (unsigned long)jailbrokenStatus { return 0; }
+%end
+
+%hook MobClick
++ (BOOL)isJailbroken { return NO; }
+%end
+
+%hook UMUtils
++ (BOOL)isDeviceJailBreak { return NO; }
+%end
+
+%hook IFlySystemInfo
++ (BOOL)isJailbroken { return NO; }
+%end
+
+// %hook NSDictionary
+// - (id)objectForKey:(id)aKey {
+//     if ([aKey isKindOfClass:NSString.class] && [@"DISABLE_JAILBREAK_DETECTION" isEqualToString:aKey]) {
+//         return @(YES);
+//     }
+//     return %orig;
+// }
+// %end
+
+%hook KeyOSPlayerInternal
+- (BOOL)isJailbroken { return NO; }
+%end
+
+%hook AIMetaDataCollector
++ (id)getDeviceJailbrokenState {
+    return [NSNumber numberWithBool:NO];
+}
+%end
+
+%hook PiracyProtection
++ (BOOL)isJailbroken { return NO; }
+%end
+
+%hook FMFeatureUtils
+- (BOOL)isFastMetricsEnabled { return YES; }
+%end
+
 %hook v_VDMap
 - (bool)isJailbrokenDetected {
     return false;
@@ -203,6 +264,25 @@
 - (bool)isCompliant {
     return true;
 }
+%end
+
+%hook MCPDemoAppDelegate
+- (bool)isJailbroken { return false; }
+%end
+
+%hook AAAPBootStartPoint
++ (void)load { }
+%end
+
+%hook GULSwizzler
++ (void)swizzleClass:(Class)aClass
+            selector:(SEL)selector
+     isClassSelector:(BOOL)isClassSelector
+           withBlock:(id)block {}
+%end
+
+%hook _TtC5Chase11AuthManager
+- (bool)isJMC { return false; }
 %end
 
 %hook DTXSessionInfo
@@ -296,8 +376,57 @@
 %end
 
 %hook ZDetection
++ (bool)isZDetectionAvailable {
+    return false;
+}
+
++ (bool)isDebugged {
+    return false;
+}
+
 + (bool)isRootedOrJailbroken {
     return false;
+}
+%end
+
+%hook ThreatChecks
++ (void)checkJailbreak { }
++ (bool)checkIfHooked:(id)arg2 method_name:(id)arg3 { return false; }
++ (void)doThreatChecks { }
++ (void)doInitChecks { }
++ (void)doPortCheck:(id)arg2 { }
+%end
+
+%hook JailbreakDetector
++ (bool)isJailbrokenWithReasons:(id)arg2 { return false; }
++ (void)check_system_tampering { }
++ (void)check_system_tampering_inner { }
++ (void)check_app_tampering { }
++ (void)reportSystemTamperingReason:(id)arg2 { }
++ (void)reportAppTamperingReason:(id)arg2 { }
++ (void)reportFileSystemModificationReason:(id)arg2 { }
++ (void)reportElevationOfPrivilegesReason:(id)arg2 { }
++ (void)reportJailbreakReason:(id)arg2 { }
+%end
+
+// %hook NSUserDefaults
+// - (BOOL)boolForKey:(NSString *)aKey {
+//     if ([aKey isKindOfClass:[NSString class]] && [@"ZimperiumShouldDoThreatChecks" isEqualToString:aKey]) {
+//         return NO;
+//     }
+//     return %orig;
+// }
+// %end
+
+%hook TZSKPaymentParamsTool
++ (BOOL)detectCurrentDeviceIsJailbroken {
+    return NO;
+}
+%end
+
+%hook FFMClassOneFive
+- (NSMutableDictionary *)cofiSymbolOneNine {
+    return [@{@(0): @(7), @(1577865600): @(44)} mutableCopy];
 }
 %end
 %end
