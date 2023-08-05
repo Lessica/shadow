@@ -1,6 +1,3 @@
-INSTALL_TARGET_PROCESSES = SpringBoard
-# LOGOS_DEFAULT_GENERATOR = internal
-
 include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = Shadow
