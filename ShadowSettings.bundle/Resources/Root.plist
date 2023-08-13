@@ -72,6 +72,10 @@
 			<true/>
 			<key>showIdentifiersAsSubtitle</key>
 			<true/>
+			<key>includeIdentifiersInSearch</key>
+			<true/>
+			<key>highlightSearchText</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>cell</key>
